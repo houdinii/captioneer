@@ -1,0 +1,14 @@
+[project]
+name = "houdinii_captioneer"
+version = "0.0.1"
+authors = [
+  { name="Houdinii", email="houdinii@example.com" },
+]
+description = "A small program to prep images for Lora training"
+readme = "README.md"
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
