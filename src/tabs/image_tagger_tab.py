@@ -1,4 +1,6 @@
 import os
+
+from PyQt5.QtCore import QThread, pyqtSignal, QProcess
 from PyQt5.QtGui import QPixmap
 from PyQt5.QtWidgets import (
     QWidget,
@@ -10,6 +12,8 @@ from PyQt5.QtWidgets import (
     QLabel,
     QTextEdit,
 )
+
+from src.tabs.utils import delete_proper_nouns
 
 
 class ImageTaggerTab(QWidget):
@@ -47,10 +51,15 @@ class ImageTaggerTab(QWidget):
         self.prev_button = QPushButton("Previous")
         self.save_button = QPushButton("Save")
         self.next_button = QPushButton("Next")
+        self.delete_proper_nouns_button = QPushButton("Delete Proper Noun Tags")
+        self.delete_poor_encoded_button = QPushButton("Delete Poorly Encoded Tags")
+
         self.button_layout = QHBoxLayout()
         self.button_layout.addWidget(self.prev_button)
         self.button_layout.addWidget(self.save_button)
         self.button_layout.addWidget(self.next_button)
+        self.button_layout.addWidget(self.delete_proper_nouns_button)
+        self.button_layout.addWidget(self.delete_poor_encoded_button)
 
     def setup_folder_ui(self):
         self.folder_text = QLineEdit()
@@ -74,6 +83,8 @@ class ImageTaggerTab(QWidget):
         self.text_edit.textChanged.connect(self.set_text_modified)
         self.save_button.clicked.connect(self.save_text)
         self.folder_button.clicked.connect(self.select_folder)
+        self.delete_proper_nouns_button.clicked.connect(self.process_proper_nouns)
+        self.delete_poor_encoded_button.clicked.connect(self.delete_poor_encoded)
 
     def load_image_text_map(self):
         if self.image_dir:
@@ -157,3 +168,16 @@ class ImageTaggerTab(QWidget):
             # Increment index and wrap around if necessary
             self.index = (self.index + 1) % len(self.image_text_map)
             self.display_image()
+
+    def process_proper_nouns(self):
+        print("Here")
+        delete_proper_nouns(self.image_dir)
+
+    @staticmethod
+    def delete_poor_encoded(self):
+        # Function to delete poorly encoded tags
+        print("delete poorly encoded pressed")
+
+    @staticmethod
+    def done_processing(self):
+        print("Done!")
